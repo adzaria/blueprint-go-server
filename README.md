@@ -53,6 +53,7 @@ As mentioned above, each folder maps to a specific layer:
 | core > service | Use cases            |
 | infrastructure | Frameworks & Drivers |
 | interface      | Adapters             |
+Note Entities, Use cases and Ports are grouped in the same folder since they all are part of the business logic
 
 ## ☠️ Responsibility for each layer ☠️
 
