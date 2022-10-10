@@ -24,16 +24,16 @@ In short this is a first class language to pick when building a server.
 
 ## The folder structure 📁
 
-The structure of folders should reflect the separation between each layer. What I propose here is not definitive and could benefit some extra thinking.
+The structure of folders should reflect the separation between each layer. What I propose here is the result of many hours of thinking and refactoring, but it is not definitive and could benefit some external opinion.
 
 ```
 root
 ├── cmd -------------------> contains entry points for the program
 |   └── httpserver --------> calls httpserver.Start()
 ├── internal --------------> private application code
-|   ├── core --------------> contains all the business logic (models, services, **ports**) 
-|   ├── infrastructure ----> contains all secondary actors, pproviders, the router and the registry
-|   └── interface ---------> contains the interface layer, aka the adapters (repository, handlers, middlewares)
+|   ├── core --------------> contains all the business logic (models, services, **ports**). **Layers: entities + use cases**
+|   ├── infrastructure ----> contains all secondary actors, pproviders, the router and the registry. **Layer: Frameworks & Drivers**
+|   └── interface ---------> contains the interface layer (repository, handlers, middlewares). **Layer: Adapters**
 ├── pkg -------------------> shared code, library-wrappers...
 ├── .env ------------------> secrets
 └── Makefile
