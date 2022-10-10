@@ -22,6 +22,12 @@ In short this is a first class language to pick when building a server.
 
 ## Ports and Adapters 🔌
 
+If you already read about ports and adapters architecture, chances are you came accross a diagram like this already (fig1).
+
+![fig1](./README/hexagonal_traditional.png "fig1")
+
+to be continued
+
 ## The folder structure 📁
 
 The structure of folders should reflect the separation between each layer. What I propose here is the result of many hours of thinking and refactoring, but it is not definitive and could benefit some external opinion.
