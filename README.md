@@ -39,6 +39,8 @@ root
 └── Makefile
 ```
 
+Note you will find advanced informations on how to structure your project here (technology agnostic): https://github.com/golang-standards/project-layout
+
 ### Detailed organisation
 
 ## ☠️ Responsibility for each layer ☠️
