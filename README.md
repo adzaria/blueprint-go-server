@@ -31,9 +31,12 @@ root
 ├── cmd -------------------> contains entry points for the program
 |   └── httpserver --------> calls httpserver.Start()
 ├── internal --------------> private application code
-|   ├── core --------------> contains all the business logic (models, services, **ports**). **Layers: entities + use cases**
-|   ├── infrastructure ----> contains all secondary actors, pproviders, the router and the registry. **Layer: Frameworks & Drivers**
-|   └── interface ---------> contains the interface layer (repository, handlers, middlewares). **Layer: Adapters**
+|   ├── core --------------> contains all the business logic (models, services, ports).
+|   |   ├── domain
+|   |   ├── ports
+|   |   └── services
+|   ├── infrastructure ----> contains all secondary actors, pproviders, the router and the registry.
+|   └── interface ---------> contains the interface layer (repository, handlers, middlewares).
 ├── pkg -------------------> shared code, library-wrappers...
 ├── .env ------------------> secrets
 └── Makefile
@@ -41,7 +44,15 @@ root
 
 Note you will find advanced informations on how to structure your project here (technology agnostic): https://github.com/golang-standards/project-layout
 
-### Detailed organisation
+### How it maps to the layers
+
+As mentioned above, each folder maps to a specific layer:
+| Folder         | Layer                |
+|----------------|----------------------|
+| core > domain  | Entities             |
+| core > service | Use cases            |
+| infrastructure | Frameworks & Drivers |
+| interface      | Adapters             |
 
 ## ☠️ Responsibility for each layer ☠️
 
