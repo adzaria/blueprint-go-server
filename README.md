@@ -1,4 +1,4 @@
-# Clean GO architechture 🛡️
+# Clean go architecture 🛡️
 
 Post-OOP languages are doing great implementing ports and adapters in an hexagonal architecture. There are a lot of resources online describing the core principles of hexagonal architecture, and a lot of ressources on how to implement it in Go. They are great. But because they aim at senior developers, I feel they somehow fail at answering the most basic real-life implementation questions: how the heck do I send emails ? Logs ? Where do I put my middlewares ? How do I make request to other services ? How do I implement a queue ?
 
@@ -6,7 +6,7 @@ This repo aims at answering this question: how to achieve buiding a stable, flex
 
 I have years of experience building NodeJS servers. I've put a lot of pain and suffering (for good) building/maintaining/refactoring them. Though I am rather new in Go. This is why I'm trying to involve more experienced developers to this project, and you should feel free to share your experience and participate in this project.
 
-## Why Go, and why hexagonal ?
+## Why Go, and why hexagonal ❓
 
 ### Why choosing Go
 
@@ -18,15 +18,15 @@ Go maximizes ease to code, efficiency and low compile time. Additionaly one can 
 
 In short this is a first class language to pick when building a server.
 
-### Why choosing hexagonal
+### Why choosing hexagonal 
 
-## Ports and Adapters
+## Ports and Adapters 🔌
 
-## The folder structure
+## The folder structure 📁
 
-## Responsibility for each layer
+## ☠️ Responsibility for each layer ☠️
 
-## Use a registry to  connect ports and adapters together
+## Use a registry to  connect ports and adapters together 💉
 
 ## Create middlewares
 
@@ -34,7 +34,7 @@ In short this is a first class language to pick when building a server.
 
 ## Connect a new secondary actor
 
-## Unitests
+## Unitests 🧪
 
 ## How to create a new service
 
@@ -44,11 +44,11 @@ In short this is a first class language to pick when building a server.
 
 ## Queues and workers
 
-## Chron jobs
+## Chron jobs ⏰
 
-## Secrets
+## Secrets 🤐
 
-## Docker
+## Docker 🐋
 
 ## External ressources
 
