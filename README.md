@@ -30,6 +30,8 @@ If you already read about ports and adapters architecture, chances are you came 
 
 If you remember, the architecture is there to inforce separation between the core of the business rules (entities, such a models, types... and use cases, i.e. services) and any implementation details (interface and drivers).
 
+![fig2](./README/hexagonal_layers.png "fig2")
+
 One thing to notice is how everything that is not part of the core business is simply thrown out of the inner circle. All actors (humans, clis, other srvices, databases, search indexes, third party email or log platform) is treated as an external entity, that can only drive the system (primary actors) or be driven by the system (secondary actors) through ports. The only difference here being that ports for primary actors .... and ports for secondary actors ..... .
 
 So in the core, we roughly have models, services, and both of them expose ports to the outside. Handlers are just using those ports to drive the system or implement their rules to be driven by it. Easy peasy.
