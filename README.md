@@ -6,9 +6,7 @@ This repo aims at answering this question: how to achieve buiding a stable, flex
 
 I have years of experience building NodeJS servers. I've put a lot of pain and suffering (for good) building/maintaining/refactoring them. Though I am rather new in Go. This is why I'm trying to involve more experienced developers to this project, and you should feel free to share your experience and participate in this project.
 
-## Why Go, and why hexagonal ❓
-
-### Why choosing Go
+## Why choosing Go ❓
 
 According to Go's FAQ, "One had to choose either efficient compilation, efficient execution, or ease of programming; all three were not available in the same mainstream language. [...] Go addressed these issues [...]. It also aimed to be modern, with support for networked and multicore computing".
 
@@ -18,23 +16,31 @@ Go maximizes ease to code, efficiency and low compile time. Additionaly one can 
 
 In short this is a first class language to pick when building a server.
 
-### Why choosing hexagonal 
+## Why choosing hexagonal ❓
 
 According to it's author, the ports and adapters architecture exists for a reason: to inforce isolation of the application's components by design, so they can be developed and tested in isolation from its run-time devices and databases. Easy.
 
+... todo
+
 ## Ports and Adapters 🔌
 
-If you already read about ports and adapters architecture, chances are you came accross a diagram like this already:
+If you read about ports and adapters architecture, chances are you came accross a diagram like this:
 
-![fig1](./README/hexagonal_traditional.png "fig1")
+![fig1](./README/hexagonal_traditional_layers.png "fig1")
 
 If you remember, the architecture is there to inforce separation between the core of the business rules (entities, such a models, types... and use cases, i.e. services) and any implementation details (interface and drivers).
 
-![fig2](./README/hexagonal_layers.png "fig2")
+Notice how everything that is not part of the core business is simply pushed outside of the inner circle and points inwards. Notice how those actors are all equally treated as external from the core. The core do not adapt to them, they adapt to the core. The only difference between them is that ports for primary actors (actors that drives the system, such as humans and clis) define actions (an interface) exposed by the system to use it, when ports for secondary actors (actors driven by the system, such as database, cache, search index, mailing system, log provider) define actions (an interface) on what they should implement to be used by the system. Easy peasy.
 
-One thing to notice is how everything that is not part of the core business is simply thrown out of the inner circle. All actors (humans, clis, other srvices, databases, search indexes, third party email or log platform) is treated as an external entity, that can only drive the system (primary actors) or be driven by the system (secondary actors) through ports. The only difference here being that ports for primary actors .... and ports for secondary actors ..... .
+... todo - this architecture heavily relies on dependency injection
 
-So in the core, we roughly have models, services, and both of them expose ports to the outside. Handlers are just using those ports to drive the system or implement their rules to be driven by it. Easy peasy.
+### ☠️ Responsibility for each layer ☠️
+
+...todo
+
+### Control flow
+
+...todo
 
 ## The folder structure 📁
 
@@ -69,8 +75,6 @@ As mentioned above, each folder maps to a specific layer:
 | infrastructure | Frameworks & Drivers |
 
 Note Entities, Use cases and Ports are grouped in the same folder since they all are part of the business logic
-
-## ☠️ Responsibility for each layer ☠️
 
 ## Use a registry to  connect ports and adapters together 💉
 
