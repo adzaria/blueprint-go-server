@@ -12,7 +12,7 @@ I have years of experience building NodeJS servers. I've put a lot of pain and s
 
 According to Go's FAQ, "One had to choose either efficient compilation, efficient execution, or ease of programming; all three were not available in the same mainstream language. [...] Go addressed these issues [...]. It also aimed to be modern, with support for networked and multicore computing".
 
-In my humble opinion they nailed it.
+It's safe to say they nailed it.
 
 Go maximizes ease to code, efficiency and low compile time. Additionaly one can feel it really was written for the web. Also the standard library is so good it makes using third party libraries useless in most cases, allowing you to achieve next-to-zero dependencies.
 
@@ -20,13 +20,19 @@ In short this is a first class language to pick when building a server.
 
 ### Why choosing hexagonal 
 
+According to it's author, the ports and adapters architecture exists for a reason: to inforce isolation of the application's components by design, so they can be developed and tested in isolation from its run-time devices and databases. Easy.
+
 ## Ports and Adapters 🔌
 
-If you already read about ports and adapters architecture, chances are you came accross a diagram like this already (fig1).
+If you already read about ports and adapters architecture, chances are you came accross a diagram like this already:
 
 ![fig1](./README/hexagonal_traditional.png "fig1")
 
-to be continued
+If you remember, the architecture is there to inforce separation between the core of the business rules (entities, such a models, types... and use cases, i.e. services) and any implementation details (interface and drivers).
+
+One thing to notice is how everything that is not part of the core business is simply thrown out of the inner circle. All actors (humans, clis, other srvices, databases, search indexes, third party email or log platform) is treated as an external entity, that can only drive the system (primary actors) or be driven by the system (secondary actors) through ports. The only difference here being that ports for primary actors .... and ports for secondary actors ..... .
+
+So in the core, we roughly have models, services, and both of them expose ports to the outside. Handlers are just using those ports to drive the system or implement their rules to be driven by it. Easy peasy.
 
 ## The folder structure 📁
 
@@ -57,8 +63,8 @@ As mentioned above, each folder maps to a specific layer:
 |----------------|----------------------|
 | core > domain  | Entities             |
 | core > service | Use cases            |
-| infrastructure | Frameworks & Drivers |
 | interface      | Adapters             |
+| infrastructure | Frameworks & Drivers |
 
 Note Entities, Use cases and Ports are grouped in the same folder since they all are part of the business logic
 
