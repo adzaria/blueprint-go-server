@@ -42,7 +42,7 @@ Notice how everything that is not part of the core business is simply pushed out
 
 ...todo
 
-![fig3](./README/hexagonal_traditional_slice.png "fig3")
+![fig3](./README/hexagonal_slice.png "fig3")
 
 ...todo
 
