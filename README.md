@@ -34,11 +34,15 @@ Notice how everything that is not part of the core business is simply pushed out
 
 ... todo - this architecture heavily relies on dependency injection
 
-### ☠️ Responsibility for each layer ☠️
+## ☠️ Responsibility for each layer ☠️
 
 ...todo
 
-### Control flow
+## Zoom on a slice
+
+...todo
+
+![fig3](./README/hexagonal_traditional_slice.png "fig3")
 
 ...todo
 
