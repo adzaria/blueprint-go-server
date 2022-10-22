@@ -136,5 +136,6 @@ Note Entities, Use cases and Ports are grouped in the same folder since they all
 
 - The original article about hexaagonal architectur from Alistair Cockburn: https://alistair.cockburn.us/hexagonal-architecture/
 - The Twelve-Factor App: https://12factor.net/
+- Go best practises by Uber https://github.com/uber-go/guide 
 - Go standards on how to structure a project: https://github.com/golang-standards/project-layout
 - A clean implementation in Go by Matías Varela: https://medium.com/@matiasvarela/hexagonal-architecture-in-go-cfd4e436faa3
