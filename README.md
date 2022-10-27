@@ -54,7 +54,7 @@ Notice how:
 - All actors are all equally treated,
 - The core do not adapt to actors, actors adapt to the core.
 
-It is worth to mention the name hexagon comes from the idea that each side should expose a port. In real life though this would most likely be an n-gon, since you will probably never have exactly 6 ports...
+It is worth to mention the name hexagon comes from the idea that each side should expose a port. In real life though this would most likely be an n-gon, since you will probably never have exactly 6 ports... 
 
 ## ☠️ Responsibility for each layer ☠️
 
@@ -64,10 +64,22 @@ It is worth to mention the name hexagon comes from the idea that each side shoul
 
 ### The "Use-Cases" layer
 
-- Entities
-- The "use cases" layer contains the business logic (services) and it's ports. The services should never receive the full request object. Each service is a  They should receive anything they need to call (secondary actors). The ports are interfaces that must define actions a Primary Actor can call, or actions a secondary actor must implement.
+The "use cases" layer contains the services handling the business logic and it's ports.
 
-### The "Interface" layer
+- Each service is a struct type.
+- Each service implements an interface (port) that defines actions exposed by the service.
+- Each action exposed by the service is a method defined on the struct type.
+
+```
+// todo: add an example of a service, it's dependencies, 
+```
+
+The services should never receive the full http request. 
+
+
+The struct holds all the dependencies needed by They should receive anything they need to call (secondary actors). The ports are interfaces that must define actions a Primary Actor can call, or actions a secondary actor must implement.
+
+### The "Interfaces" layer
 
 ### The Drivers & Frameworks layer
 
@@ -75,8 +87,44 @@ It is worth to mention the name hexagon comes from the idea that each side shoul
 
 This architecture relies heavily on dependency injection, meaning each layer receives the objects it can call. Notice how all dependencies point inward. Which means outside layers depend on the inside layers. Which means a file in an inner circle never import a file from an upper level. If it does, something probably failed.
 
-One might be tempted to inject dependencies
+❌ One might be tempted to inject dependencies through function arguments or by using a higher order function like this:
+```
+// Example for a service accepting dependencies through arguments
+func CreateUser (username, email, password, userDatabase) {
+  // Validate data
+  // Save user to database
+  // Send user an email
+}
 
+or
+
+// Example of a handler accepting dependencies through a higher order function
+func CreateUserHandler (userService) func (w http.ResponseWriter, r *http.Request) {
+  return func (w http.ResponseWriter, r *http.Request) {
+    // Handle http request
+    // Call the service
+    // Send http response
+  }
+
+}
+
+```
+
+✔️ It would work. But instead, we will use a very idiomatic-Go approach:
+```
+// Example for a service
+type UserService struct {
+   // Put there what the service needs to call
+   userDatabase
+}
+
+// Then define actions for this service
+func (s *UserService) CreateUser (username, email, password) {
+  // Validate data
+  // Save user to database
+  // Send user an email
+}
+```
 
 ## Zoom on a slice
 
