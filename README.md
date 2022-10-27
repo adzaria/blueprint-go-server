@@ -66,9 +66,10 @@ It is worth to mention the name hexagon comes from the idea that each side shoul
 
 The "use cases" layer contains the services handling the business logic and it's ports.
 
-- Each service is a struct type.
+- Each service is a struct type, defining it's dependencies.
 - Each service implements an interface (port) that defines actions exposed by the service.
 - Each action exposed by the service is a method defined on the struct type.
+- Each use case should just return data or errors. It does not return a status code or headers
 
 ```
 // todo: add an example of a service, it's dependencies, 
@@ -80,6 +81,14 @@ The services should never receive the full http request.
 The struct holds all the dependencies needed by They should receive anything they need to call (secondary actors). The ports are interfaces that must define actions a Primary Actor can call, or actions a secondary actor must implement.
 
 ### The "Interfaces" layer
+
+The interfaces layer contains a 
+
+- It also is a struct type, defining it's dependencies.
+- It can not contain any business logic.
+- Regarding a primary adapter: it receives data for the Actor, it ccalls the service, it sends the data back,
+- Regarding a secondary adapter: it receives data from the service, calls the Driven Actor, and sends the data backto the service.
+- Regarding a primary adapter: it can handle errors to choose what status to answer for example (since the service is not sending those)
 
 ### The Drivers & Frameworks layer
 
