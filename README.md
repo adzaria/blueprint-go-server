@@ -1,15 +1,20 @@
+```
+This repo is a work in progress - last edit 27/10/2022
+```
+
+I feel post-OOP languages are doing great implementing ports and adapters in an Hexagonal Architecture. In this article I want to give it a try. To tackle some issues I've had implementing it, and to highlight some parts that I feel are missing in most articles I found. I have a few years build and  servers in NodeJS. I've put a lot of energy into building / maintaining / massively refactoring them. Though I am rather new in Go. This is why, if you come accross this project, you should feel free to share your thoughts and participate. See the links at the bottom for meaningful ressources.
+
+This article uses the words "Clean architecture", "Hexagonal architecture" and "Ports & Adapters pattern" as synonyms.
+
 # Clean go architecture 🛡️
 
-Post-OOP languages are doing great implementing ports and adapters in an hexagonal architecture. There are a lot of resources online describing the core principles of hexagonal architecture, and a lot of ressources on how to implement it in Go. They are great. But because they aim at senior developers, I felt they somehow failed at answering the most basic real-life implementation questions: how the heck do I send emails ? Where do I put my middlewares ? How do I make request to other services ? How do I implement a queue ? Should I really turn everything into an Actor ? Or is it ok to have librairies I use with direct calls ?
+There are a lot of resources online describing the core principles of Hexagonal Architecture, and a lot of ressources on how to implement it in Go. They are great. But because they aim at senior developers, I felt they somehow failed at answering the most basic real-life implementation questions: how the heck do I send emails ? Where do I put my middlewares ? How do I make request to other services ? How do I implement a queue ? Should I turn everything into an Actor ? Or is it ok to have librairies I use with direct calls ?
 
-This repo aims at answering this question: how to achieve buiding a stable, flexible, scalable, highly available REST API in Go.
+This repo aims at answering this question: how to achieve buiding a stable, flexible, scalable, highly available REST API in Go. It won't be achieved on the first shot.
 
-I have a few years of experience building servers with NodeJs. I've put a lot of pain and suffering (for good) into building / maintaining / refactoring them. Though I am rather new in Go. This is why, if you come accross this project, you should feel free to share and participate.
+# Why choosing Go ❓
 
-
-## Why choosing Go ❓
-
-According to Go's FAQ, "(Before Go), one had to choose either efficient compilation, efficient execution, or ease of programming; all three were not available in the same mainstream language. [...] Go addressed these issues [...]. It also aimed to be modern, with support for networked and multicore computing".
+According to Go's FAQ, "[Before Go], one had to choose either efficient compilation, efficient execution, or ease of programming; all three were not available in the same mainstream language. [...] Go addressed these issues [...]. It also aimed to be modern, with support for networked and multicore computing".
 
 It's safe to say they nailed it.
 
@@ -17,8 +22,7 @@ Additionaly we can mention the standard library is so good it makes using third 
 
 In short, Go is a first class language to pick when building a server.
 
-
-## Why choosing hexagonal ❓
+# Why choosing hexagonal ❓
 
 According to it's author, the ports and adapters architecture exists to inforce isolation of the application's components by design, so they can be developed and tested in isolation from its run-time devices and databases. Easy.
 
@@ -29,18 +33,24 @@ According to it's author, the ports and adapters architecture exists to inforce 
 
 On the 'bad side' it surely is more technical than other patterns.
 
-
 ## Ports and Adapters architecture 🔌
 
-This architecture is about isolating the core business.
+So this architecture is about isolating the core business.
 
-To achieve isolation, everything that is not pure business logic and is considered as an Actor driving the application (Primary Actor) or an Actor driven by the application (Secondary Actor) is just removed from the domain and pushed away on the surounding Framework layer. All communication between the actors and the application is achieved through Ports and Adapters.
+To achieve isolation, everything that is not pure business logic and is either using the application ( A Primary Actor, driving the application) or used by the application (A secondary actor, driven by the application) is just removed from the domain and pushed away on the surounding Framework layer. 
 
-If you read about this pattern, chances are you came accross a diagram like this:
+Then, all communication between those two types of actors and the application is achieved through Ports and Adapters.
+
+Ports are exposed by the core. Adapters either call the core through actions defined by the ports (Primary adapters), or implement actions defined by the port (Secondary adapters).
+
+If you already read about this pattern, chances are you came accross a diagram like this:
 
 ![fig1](./README/hexagonal_traditional_layers.png "fig1")
 
-Notice how everything that is not part of the core business is simply pushed outside. Notice how those actors are all equally treated. The core do not adapt to them, they adapt to the core. The core define actions for the Primary Actors to use the application (Primary Ports), and defines actions a Secondary Actor has to implement so it can be used by the application (Secondary Ports).
+Notice how :
+- Everything that is not part of the core business is pushed outside,
+- All actors are all equally treated,
+- The core do not adapt to actors, they adapt to the core.
 
 ## Dependency injection 💉
 
