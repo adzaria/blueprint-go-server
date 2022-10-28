@@ -233,7 +233,7 @@ But in a real life situation and a small project, I'm allowing it. This is the s
 - Any package from standard library that doesn't mess with tests can be imported directly without dependency injection. It means it's ok to import anything that performs crypto operations, string manipulation etc... It means it is not ok to import logs or http, because they perform unwanted opertions for tests.
 - Any package from 3rd party provider is wrapped, put into /pkg folder and could be imported directly following the same set of rules. It means it would be ok to import directly a uuid generator, bcrypt, a type validation library... They do not mess with our tests. It means it is not ok to import directly a database, a logging library etc...
 
-# Make a Makefile
+# Use a Makefile #️⃣
 
 // todo
 
