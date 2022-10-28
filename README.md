@@ -102,6 +102,8 @@ Adapters for Secondary actors:
 - A handler is a struct type, defining it's dependencies (services it needs to call).
 - Each method defined on the struct is an adapter.
 
+// todo, verify this> Note: I think a handler could techincally be allowed to import a service directly, since it depends on it and the service is from a lower layer. But it has a struct for anything else coming from the above layer already. For this reason and to keep ocnsistency I think injecting the service should be prefered.
+
 ### Regarding it's responsibilities:
 - It can not contain any business logic.
 - A Primary Adapter handles the request. It can choose an error statusses, parse the request to extract what is needed by the service. (I think it should not perform any kind of validation, the service should)
@@ -154,47 +156,83 @@ func (s *UserService) CreateUser (username, email, password) {
 }
 ```
 
-## Zoom on a slice
+## Zoom on the control flow
 
-...todo
+Let's take a last look on 4 different diagrams that I think helps clarify the structure:
 
 ![fig3](./README/hexagonal_slice.png "fig3")
 
-...todo
+// todo: rewrite diagrams
+
+### Slice 1: Zoom on ports and adapters
+
+// todo
+
+### Slice 2: Zoom on dependencies
+
+// todo
+
+### Slice 3: Zoom on the control flow
+
+// todo
+
+### Slice 4: Where to find parts in the folders
+
+// todo
 
 # The folder structure 📁
 
-The structure of folders should reflect the separation between each layer. What I propose here is the result of many hours of thinking and refactoring, but it is not definitive and could benefit some external opinion.
+The structure of folders should reflect the separation between each layer. What I propose here is of course the result of many hours of thinking and refactoring, but it is still not definitive and could benefit some external opinion.
+
+It starts with a classic cmd / src / pkg tree.
 
 ```
 root
-├── cmd -------------------> contains entry points for the program
+├── cmd -------------------> contains entry points to the program
 |   └── httpserver --------> calls httpserver.Start()
-├── internal --------------> private application code
+├── src -------------------> private application code (contains all layers)
 |   ├── core --------------> contains all the business logic (models, services, ports).
 |   |   ├── domain
+|   |   |   ├── models
+|   |   |   └── types
 |   |   ├── ports
+|   |   |   ├── primaryports
+|   |   |   └── secondaryports
 |   |   └── services
 |   ├── infrastructure ----> contains all secondary actors, pproviders, the router and the registry.
+|   |   ├── db
+|   |   ├── httpserver ----> contains the routes, the Start() function
+|   |   └── registry ------> links all ports and adapters together on start and provide controllers to the high level app 
 |   └── interface ---------> contains the interface layer (repository, handlers, middlewares).
+|   |   ├── primaryadapters -------> handlers / middlewares
+|   |   └── secondaryadapters -----> repository implementation
 ├── pkg -------------------> shared code, library-wrappers...
+├── tests -----------------> high level tests / mock data / mocked infrastructure
 ├── .env ------------------> secrets
 └── Makefile
 ```
 
-Note you will find advanced informations on how to structure your project here: https://github.com/golang-standards/project-layout
+Note you will find advanced informations on how to structure your project in the links bellow.
 
-### How it maps to the layers
+# How to know which dependency to inject ?
 
-As mentioned above, each folder maps to a specific layer:
-| Folder         | Layer                |
-|----------------|----------------------|
-| core > domain  | Entities             |
-| core > service | Use cases            |
-| interface      | Adapters             |
-| infrastructure | Frameworks & Drivers |
+A real life application uses a lot of packages in the business layer. Probably at least uuid generator, an orm, bcrypt...  The first question I had when starting to implement this pattern was wether or not all dependencies must absolutely be injected. 
 
-Note Entities, Use cases and Ports are grouped in the same folder since they all are part of the business logic
+They technically should.
+
+But in a real life situation and a small project, I'm allowing it. This is the set of rules I follow (and yes there is room for discussion arround them I guess):
+- Any package from standard library that doesn't mess with tests can be imported directly without dependency injection. It means it's ok to import anything that performs crypto operations, string manipulation etc... It means it is not ok to import logs or http, because they perform unwanted opertions for tests.
+- Any package from 3rd party provider is wrapped, put into /pkg folder and could be imported directly following the same set of rules. It means it would be ok to import directly a uuid generator, bcrypt, a type validation library... They do not mess with our tests. It means it is not ok to import directly a database, a logging library etc...
+
+# Make a Makefile
+
+// todo
+
+
+
+=================
+
+
 
 ## Create an entity
 
@@ -234,12 +272,14 @@ Note Entities, Use cases and Ports are grouped in the same folder since they all
 
 ## External ressources
 
-### About Go & 
+### About Go & Standard practises
 
 - Go best practises by Uber https://github.com/uber-go/guide 
 - Go standards on how to structure a project: https://github.com/golang-standards/project-layout
+- The Twelve-Factor App: https://12factor.net/
+- Semantic versioning: https://semver.org/
 
+### About Hexagonal Architecture
 
 - The original article about hexaagonal architectur from Alistair Cockburn: https://alistair.cockburn.us/hexagonal-architecture/
-- The Twelve-Factor App: https://12factor.net/
 - A clean implementation in Go by Matías Varela: https://medium.com/@matiasvarela/hexagonal-architecture-in-go-cfd4e436faa3
