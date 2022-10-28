@@ -60,13 +60,13 @@ It is worth to mention the name hexagon comes from the idea that each side shoul
 
 "Entities" together with "Use cases" define the core of the application.
 
-### The "Entities" layer
+### The "Entities" layer 🧅
 
 The "Entities" layer (or Domain layer) contains all the knowledge of the business (models, important types) and it can contain functions (for validation and methods associated to the structs).
 // todo: verify when it's ok to have a function there
 It can never import anything from any other layer, but it will be imported from other layers.
 
-### The "Use-Cases" layer
+### The "Use-Cases" layer 🧅
 
 #### The "Use-Cases" layer contains:
 - The business logic acceesed by Primary actors and it's ports.
@@ -87,7 +87,7 @@ It can never import anything from any other layer, but it will be imported from 
 // todo: add an examples
 ```
 
-### The "Interface" layer
+### The "Interface" layer 🧅
 
 #### The interface layer contains:
 Adapters for Primary actors:
@@ -110,7 +110,7 @@ Adapters for Secondary actors:
 - Regarding a Primary Adapter: it receives data from the Actor, it calls the service, it sends an answer back,
 - Regarding a Secondary Adapter: it receives data from the service, calls the Driven Actor, sends the data back to the service.
 
-### The Drivers & Frameworks layer
+### The Drivers & Frameworks layer 🧅
 The "Drivers & Frameworks" layer contains the "implementation details" we got rid of from the core. It has the database object, web frameworks, logger... Everything that would polute our tests, have side effects or perform api calls goes there.
 
 ## Dependency injection 💉
