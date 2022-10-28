@@ -214,6 +214,15 @@ root
 
 Note you will find advanced informations on how to structure your project in the links bellow.
 
+# Managing packages 📦
+
+I will stress here that you should use Go modules if your version of Go allows it. 
+
+Common practises include:
+- Forking packages you need and use those as dependencies.
+- Host packages you need as static files on a server, and copy it during the CI/CD process.
+- Some project actually commit the vendor folder. If you rely on a very few packages it might be a good idea but just so you know, NodeJS developpers are not going to like it :D 
+
 # How to know which dependency to inject ?
 
 A real life application uses a lot of packages in the business layer. Probably at least uuid generator, an orm, bcrypt...  The first question I had when starting to implement this pattern was wether or not all dependencies must absolutely be injected. 
