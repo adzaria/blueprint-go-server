@@ -56,39 +56,55 @@ Notice how:
 
 It is worth to mention the name hexagon comes from the idea that each side should expose a port. In real life though this would most likely be an n-gon, since you will probably never have exactly 6 ports... 
 
-## ☠️ Responsibility for each layer ☠️
+## ☠️ Responsibilities of each layer ☠️
 
-"Entities" together with "Use cases" define the core.
+"Entities" together with "Use cases" define the core of the application.
 
 ### The "Entities" layer
 
+The "Entities" layer (or Domain layer) contains all the knowledge of the business (models, important types) and it can contain functions (for validation and methods associated to the structs).
+// todo: verify when it's ok to have a function there
+It can never import anything from any other layer, but it will be imported from other layers.
+
 ### The "Use-Cases" layer
 
-The "use cases" layer contains the services handling the business logic and it's ports.
+#### The "Use-Cases" layer contains:
+- The business logic acceesed by Primary actors and it's ports.
+- Ports for secondary actors to implement.
 
+#### Regarding it's implementation:
 - Each service is a struct type, defining it's dependencies.
 - Each service implements an interface (port) that defines actions exposed by the service.
 - Each action exposed by the service is a method defined on the struct type.
-- Each use case should just return data or errors. It does not return a status code or headers
+- Each use-case (or action) should just return data or errors. It does not return a status code or headers.
+- Each secondary actor is called using the injected dependency. 
+- Secondary ports are interfaces defining actions needed by the core.
+
+#### Regarding it's responsibilities:
+- A service never receives the original http/gRpc request.
 
 ```
-// todo: add an example of a service, it's dependencies, 
+// todo: add an examples
 ```
 
-The services should never receive the full http request. 
+### The "Interface" layer
 
+#### The interface layer contains:
 
-The struct holds all the dependencies needed by They should receive anything they need to call (secondary actors). The ports are interfaces that must define actions a Primary Actor can call, or actions a secondary actor must implement.
+Adapters for Primary actors:
+- Handlers that receives http / gRpc requests from Primary Actors
+- Middlewares
+- DTOs
 
-### The "Interfaces" layer
+Adapters for Secondary actors:
+- Adapters implementing interfaces for Secondary Ports
 
-The interfaces layer contains a 
-
-- It also is a struct type, defining it's dependencies.
+#### Regarding it's implementation:
+- A handler is a struct type, defining it's dependencies (services it needs to call).
 - It can not contain any business logic.
-- Regarding a primary adapter: it receives data for the Actor, it ccalls the service, it sends the data back,
-- Regarding a secondary adapter: it receives data from the service, calls the Driven Actor, and sends the data backto the service.
-- Regarding a primary adapter: it can handle errors to choose what status to answer for example (since the service is not sending those)
+- Regarding a Primary Adapter: it receives data from the Actor, it calls the service, it sends an answer back,
+- Regarding a Secondary Adapter: it receives data from the service, calls the Driven Actor, sends the data back to the service.
+- A primary adapter handles the request. It can choose an error status.
 
 ### The Drivers & Frameworks layer
 
