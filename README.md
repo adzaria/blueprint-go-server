@@ -90,7 +90,6 @@ It can never import anything from any other layer, but it will be imported from 
 ### The "Interface" layer
 
 #### The interface layer contains:
-
 Adapters for Primary actors:
 - Handlers that receives http / gRpc requests from Primary Actors
 - Middlewares
@@ -101,13 +100,15 @@ Adapters for Secondary actors:
 
 #### Regarding it's implementation:
 - A handler is a struct type, defining it's dependencies (services it needs to call).
+- Each method defined on the struct is an adapter.
+
+### Regarding it's responsibilities:
 - It can not contain any business logic.
+- A Primary Adapter handles the request. It can choose an error statusses, parse the request to extract what is needed by the service. (I think it should not perform any kind of validation, the service should)
 - Regarding a Primary Adapter: it receives data from the Actor, it calls the service, it sends an answer back,
 - Regarding a Secondary Adapter: it receives data from the service, calls the Driven Actor, sends the data back to the service.
-- A primary adapter handles the request. It can choose an error status.
 
 ### The Drivers & Frameworks layer
-
 The "Drivers & Frameworks" layer contains the "implementation details" we got rid of from the core. It has the database object, web frameworks, logger... Everything that would polute our tests, have side effects or perform api calls goes there.
 
 ## Dependency injection 💉
